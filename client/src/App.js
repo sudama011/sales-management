@@ -7,6 +7,7 @@ import Home from './components/Home/Home';
 import Manager from './components/Manager';
 import Salesperson from './components/Salesperson';
 import Customer from './components/Customer';
+import Sale from './components/Sale';
 
 const Signup = lazy(() => import('./components/Signup'));
 const Login = lazy(() => import('./components/Login'));
@@ -36,6 +37,7 @@ function App() {
           <Route exact path="/manager" element={<Suspense><Manager /></Suspense>} />
           <Route exact path="/customer" element={<Suspense><Customer /></Suspense>} />
           <Route exact path="/salesperson" element={<Suspense><Salesperson /></Suspense>} />
+          <Route exact path="/sale" element={<Suspense><Sale /></Suspense>} />
         </Routes>
 
         {/* <Suspense><Footer /></Suspense> */}

@@ -3,12 +3,12 @@ const oracledb = require('oracledb');
 
 const mypw = 'sqlpassword';
 
-    async function insertManager(empid, FName, LName) {
-        let connection;
+async function insertManager(empid, FName, LName) {
+    let connection;
 
-        try {
+    try {
         connection = await oracledb.getConnection({
-            user          : "hr", password      : mypw
+            user: "hr", password: mypw
         });
         oracledb.autoCommit = true;
         await connection.execute(
@@ -16,48 +16,48 @@ const mypw = 'sqlpassword';
         );
         resolve(result.rows);
 
-        } catch (err) { // catches errors in getConnection and the query
-        } 
-        finally {
+    } catch (err) { // catches errors in getConnection and the query
+    }
+    finally {
         if (connection) {   // the connection assignment worked, must release
             try {
-            await connection.release();
+                await connection.release();
             } catch (e) {
-            console.error(e);
+                console.error(e);
             }
         }
-        }
-    };
+    }
+};
 
-    function getEmployee(empid) {
-        return new Promise(async function(resolve, reject) {
-            let connection;
-        
-            try {
+function getEmployee(empid) {
+    return new Promise(async function (resolve, reject) {
+        let connection;
+
+        try {
             connection = await oracledb.getConnection({
-                user          : "hr", password      : mypw
+                user: "hr", password: mypw
             });
-        
+
             const result = await connection.execute(
                 `SELECT * FROM manager order by manager_id`
             );
             resolve(result.rows);
-        
-            } catch (err) { // catches errors in getConnection and the query
+
+        } catch (err) { // catches errors in getConnection and the query
             reject(err);
-            } finally {
+        } finally {
             if (connection) {   // the connection assignment worked, must release
                 try {
-                await connection.release();
+                    await connection.release();
                 } catch (e) {
-                console.error(e);
+                    console.error(e);
                 }
             }
-            }
-        });
         }
-    
-    async function run() {
+    });
+}
+
+async function run() {
     try {
         //await insertManager(3, 'Tarun', 'Goyal');
         const res = await getEmployee(1);
@@ -65,10 +65,10 @@ const mypw = 'sqlpassword';
     } catch (err) {
         console.error(err);
     }
-    }
+}
 
-    run();
+run();
 
 
-export { insertManager }
+module.exports = { insertManager, getEmployee, run }
 

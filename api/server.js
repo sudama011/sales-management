@@ -15,7 +15,8 @@ app.use(cors(corsOptions))
 
 
 
-import { insertManager } from './Manager';
+const { insertManager } = require('./Manager');
+const { insertSales } = require('./Insert_sale');
 
 
 // app.post('/login', (req, res) => {
@@ -27,11 +28,21 @@ app.post('/signup', (req, res) => {
 
      insertManager(signupData.id, signupData.fn, signupData.ln);
 
-     res.send()
+     res.send('account created successfully')
 
 })
 
+app.post('/salesperson', (req, res) => {
+     let values = req.body;
+     console.log(values)
+     insertSales(values.sid, values.salesperson, values.cid, values.product, values.quantity)
+     res.send('salesperson inserted successfully')
+})
 
+app.get('/sale', (req, res) => {
+     const a = [[1, 2, 3, 5, 6]];
+     res.send(a);
+})
 
 app.listen(port, () => {
      console.log(`listening on http://localhost:${port}/`)

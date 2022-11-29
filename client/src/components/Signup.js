@@ -15,32 +15,80 @@ export default function CreateTournament() {
   const [errorMsg, setErrorMsg] = useState("");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
-  const name = useRef("");
-  const id = useRef("");
-  const fn = useRef("");
-  const ln = useRef("");
-  const password = useRef("");
+  const name = useRef(""); // m
+  const id = useRef(""); // m s
+  const fn = useRef(""); // m s
+  const ln = useRef(""); // m s 
+  const password = useRef(""); // m
+  const mid = useRef(""); // m s
+  const commision = useRef(""); // m s
+  const companyname = useRef(""); // m c
+  const addr = useRef(""); // m
 
+  //usertype value change reference value change
+  const postData = () => {
 
-  const postData = async () => {
-    try {
-      const values = {
-        id: id.current.value,
-        fn: fn.current.value,
-        ln: ln.current.value
-      }
-      let url = 'http://localhost:3001/signup';
-      axios.post(url, values)
-        .then(res => console.log('Data send'))
-        .catch(err => console.log(err))
-
-      // create account 
-      // navigate("/profile");
-    } catch (err) {
-      console.log(err)
-      setSubmitButtonDisabled(false);
-      setErrorMsg(err.message);
+    const manager = {
+      id: Number(id.current.value),
+      fn: fn.current.value,
+      ln: ln.current.value,
+      password: password.current.value
     }
+    const salesperson = {
+      id: Number(id.current.value),
+      fn: fn.current.value,
+      ln: ln.current.value,
+      mid: Number(mid.current.value),
+      commision: Number(commision.current.value),
+      password: password.current.value
+    }
+
+    const customer = {
+      id: Number(id.current.value),
+      companyname: companyname.current.value,
+      adddress: addr.current.value,
+      password: password.current.value
+    }
+
+
+    if (userType === 'manager') {
+      let url = 'http://localhost:3001/signup';
+      axios.post(url, manager)
+        .then(res => {
+          console.log('Data send');
+          // navigate("/profile");
+        })
+        .catch(err => {
+          console.log(err); setSubmitButtonDisabled(false);
+          setErrorMsg(err.message);
+        })
+    }
+    else if (userType === 'salesperson') {
+      let url = 'http://localhost:3001/signup';
+      axios.post(url, salesperson)
+        .then(res => {
+          console.log('Data send');
+          // navigate("/profile");
+        })
+        .catch(err => {
+          console.log(err); setSubmitButtonDisabled(false);
+          setErrorMsg(err.message);
+        })
+    }
+
+    else if (userType === 'customer') {
+      let url = 'http://localhost:3001/signup';
+      axios.post(url, customer)
+        .then(res => {
+          console.log('Data send');
+          // navigate("/profile");
+        })
+        .catch(err => {
+          console.log(err); setSubmitButtonDisabled(false);
+          setErrorMsg(err.message);
+        })
+    }
+
   };
 
   const handleSubmission = (e) => {
@@ -69,7 +117,7 @@ export default function CreateTournament() {
               <input
                 type="number"
                 ref={id}
-                placeholder="Enter id"
+                placeholder="Enter EMP ID"
                 required />
             </div>
 
@@ -78,7 +126,7 @@ export default function CreateTournament() {
               <input
                 type="text"
                 ref={fn}
-                placeholder="your first name"
+                placeholder="Your First Name"
                 required />
             </div>
             <div className={Style.container}>
@@ -86,20 +134,18 @@ export default function CreateTournament() {
               <input
                 type="text"
                 ref={ln}
-                placeholder="your last name"
+                placeholder="Your Last Name"
                 required />
             </div>
 
-
-            {/* <div className={Style.container}>
+            <div className={Style.container}>
               <label>Password</label>
               <input
                 type="password"
                 ref={password}
                 placeholder="Enter your password"
                 required />
-            </div> */}
-
+            </div>
 
           </>
         }
@@ -107,21 +153,51 @@ export default function CreateTournament() {
         {userType === 'salesperson' &&
           <>
             <div className={Style.container}>
-              <label>Name</label>
+              <label>Emp_Id</label>
               <input
-
+                type="number"
+                ref={id}
+                placeholder="Employee ID"
+                required /> </div>
+            <div className={Style.container}>
+              <label> First Name</label>
+              <input
                 type="text"
+                ref={fn}
+                placeholder="Enter First Name"
+                required />
+            </div>
+            <div className={Style.container}>
+              <label> Last Name</label>
+              <input
+                type="text"
+                ref={ln}
+                placeholder="Enter Last Name"
+                required />
+            </div>
+            <div className={Style.container}>
+              <label>Manager</label>
+              <input
+                type="number"
                 ref={name}
-                placeholder="Enter Tournament Name"
+                placeholder="Manager ID"
+                required />
+            </div>
+            <div className={Style.container}>
+              <label>Commision</label>
+              <input
+                type="number"
+                ref={commision}
+                placeholder="Commision"
                 required />
             </div>
 
             <div className={Style.container}>
-              <label>Address</label>
+              <label>Password</label>
               <input
-                type="text"
-                ref={name}
-                placeholder="Enter Tournament Name"
+                type="password"
+                ref={password}
+                placeholder="Enter your password"
                 required />
             </div>
           </>
@@ -131,15 +207,40 @@ export default function CreateTournament() {
         {userType === 'customer' &&
           <>
             <div className={Style.container}>
-              <label>Name</label>
+              <label>Customer ID</label>
               <input
 
                 type="text"
-                ref={name}
-                placeholder="Enter Tournament Name"
+                ref={id}
+                placeholder="Enter Customer ID Given by the firm"
                 required />
             </div>
+            <div className={Style.container}>
+              <label>Company Name</label>
+              <input
 
+                type="text"
+                ref={companyname}
+                placeholder="Enter Company Name"
+                required />
+            </div>
+            <div className={Style.container}>
+              <label>Address</label>
+              <input
+
+                type="text"
+                ref={addr}
+                placeholder="Enter Address"
+                required />
+            </div>
+            <div className={Style.container}>
+              <label>Password</label>
+              <input
+                type="password"
+                ref={password}
+                placeholder="Enter your password"
+                required />
+            </div>
           </>
         }
 
